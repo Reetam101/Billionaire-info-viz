@@ -1,0 +1,63 @@
+{% extends "home.html" %}
+{% block content %}
+<table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Rank</th>
+        <th scope="col">Name</th>
+        <th scope="col">Net Worth</th>
+        <th scope="col">Change</th>
+        <th scope="col">Source</th>
+        <th scope="col">Country/Territory</th>
+        <th scope="col">Industries</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for i in info_list %}
+        <tr>
+            <th scope="row">{{i['rank']}}</th>
+            <td>
+              <a href="/lookUp/person/{{i['personName']}}" class="btn btn-outline-info">{{i['personName']}}</a>         
+            </td>
+            <td>${{"{0:.2f}".format(i['finalWorth'] / 1000)}}B</td>
+            <td>{% if i['financialAssets'] %}
+                {% for f in i['financialAssets'] %}
+                    {{f['exchangeRate']}}, 
+                {% endfor %}    
+                {% else %}
+                    Nil    
+                {% endif %}
+            </td>
+            <td>{% if i['financialAssets'] %}
+                {% for f in i['financialAssets'] %}
+                  {{f['companyName']}}, 
+                {% endfor %}  
+            {% else %}
+                Nil    
+            {% endif %}</td>
+            <td>{{i['countryOfCitizenship']}}</td>
+            <td>
+              {% for j in i['industries'] %}
+                {% if j %}
+                  {{j}}
+                {% endif %}  
+              {% endfor %}
+            </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+ 
+
+  <br />
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item"><a class="page-link" href="/lookUp/1">1</a></li>
+      <li class="page-item"><a class="page-link" href="/lookUp/2">2</a></li>
+      <li class="page-item"><a class="page-link" href="/lookUp/3">3</a></li>
+      <li class="page-item"><a class="page-link" href="/lookUp/4">4</a></li>
+    </ul>
+  </nav>
+
+{% endblock %}

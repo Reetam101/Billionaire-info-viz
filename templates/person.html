@@ -1,0 +1,69 @@
+{% extends "home.html" %}
+{% block content %}
+    <div class="container">
+        <h2>#{{rank}} {{name}}</h2>
+        <p>{{state}}, {{city}}</p>
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="{{image}}" class="img-thumbnail" alt="{{name}}">
+            </div>
+            <div class="col-sm-8">
+                <h4>About</h4>
+                <h6 class="text-muted">
+                    {% for b in bios %}
+                        {{b}}
+                    {% endfor %}
+                </h6>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col">
+                <h4 class="text-decoration-underline">Real Time Net Worth</h4>
+                <h2 class="font-monospace">${{netWorth / 1000}} B</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <canvas id="myChart2"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script>
+        const ctx = document.getElementById('myChart2').getContext('2d');
+        const chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'horizontalBar',
+            // The data for our dataset
+            data: {
+                labels: {{ names|tojson }},
+                datasets: [{
+                    label: 'Company Shares Owned',
+                    backgroundColor: 'rgb(30,144,255)',
+                    borderColor: 'rgb(30,144,255)',
+                    data: {{ n_shares|tojson }},
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+              scales: {
+                xAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: '$ Billion/1000'
+                  }
+                }],
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Company Names'
+                  }
+                }]
+              },
+            }
+        });
+    </script>
+{% endblock %}
